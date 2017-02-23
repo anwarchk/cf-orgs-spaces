@@ -12,10 +12,10 @@
 enabled: true
 ldapHost: 10.0.2.2
 ldapPort: 389
-bindDN: uid=admin,ou=system
+bindDN: cn=admin,dc=pivotal,dc=org
 bindPwd: secret
-userSearchBase: ou=users,dc=example,dc=com
+userSearchBase: ou=users,dc=pivotal,dc=org
 userNameAttribute: uid
 userMailAttribute: mail
-groupSearchBase: ou=groups,dc=example,dc=com
+groupSearchBase: ou=groups,dc=pivotal,dc=org
 groupAttribute: member
