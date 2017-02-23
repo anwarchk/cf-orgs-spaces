@@ -11,7 +11,7 @@
 # origin: ldap
 enabled: true
 ldapHost: 127.0.0.1
-ldapPort: 10389
+ldapPort: 389
 bindDN: uid=admin,ou=system
 bindPwd: secret
 userSearchBase: ou=users,dc=example,dc=com
