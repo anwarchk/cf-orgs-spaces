@@ -1,0 +1,21 @@
+# enabled: true
+# ldapHost: 127.0.0.1
+# ldapPort: 389
+# use_tls: true
+# bindDN: "uid=cldfundry,ou=Apps,ou=Admin,o=DFSI"
+# userSearchBase: "o=DFSI"
+# userNameAttribute: "uid"
+# userMailAttribute: "mail"
+# groupSearchBase: "o=DFSI"
+# groupAttribute: "member"
+# origin: ldap
+enabled: true
+ldapHost: 127.0.0.1
+ldapPort: 10389
+bindDN: uid=admin,ou=system
+bindPwd: secret
+userSearchBase: ou=users,dc=example,dc=com
+userNameAttribute: uid
+userMailAttribute: mail
+groupSearchBase: ou=groups,dc=example,dc=com
+groupAttribute: member
