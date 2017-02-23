@@ -2,7 +2,7 @@ org: org1
 org-billingmanager:
   ldap_users: []
   users: []
-  ldap_group: "test_space1_developers"
+  ldap_group: ""
 org-manager:
   ldap_users: []
   users: []
@@ -10,7 +10,7 @@ org-manager:
 org-auditor:
   ldap_users: []
   users: []
-  ldap_group: ""
+  ldap_group: "space_developers"
 enable-org-quota: false
 memory-limit: 10240
 instance-memory-limit: -1

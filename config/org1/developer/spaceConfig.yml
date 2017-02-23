@@ -3,15 +3,15 @@ space: development
 space-developer:
   ldap_users: []
   users: []
-  ldap_group: "test_space1_auditors"
+  ldap_group: "space_developers"
 space-manager:
   ldap_users: []
   users: []
-  ldap_group: "test_space1_managers"
+  ldap_group: ""
 space-auditor:
   ldap_users: []
   users: []
-  ldap_group: "test_space1_auditors"
+  ldap_group: "space_auditors"
 allow-ssh: false
 enable-space-quota: false
 memory-limit: 10240
