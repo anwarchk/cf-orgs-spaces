@@ -10,7 +10,7 @@
 # groupAttribute: "member"
 # origin: ldap
 enabled: true
-ldapHost: 127.0.0.1
+ldapHost: 10.0.2.2
 ldapPort: 389
 bindDN: uid=admin,ou=system
 bindPwd: secret
