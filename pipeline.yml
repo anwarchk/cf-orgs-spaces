@@ -6,7 +6,7 @@ resources:
     branch: {{branch}}
 - name: 15m
   type: time
-  source: {interval: 5m}
+  source: {interval: 20}
 
 jobs:
 - name: create-orgs
@@ -21,6 +21,8 @@ jobs:
       CONFIG_DIR: ./config
       CLIENT_SECRET: {{client_secret}}
       CF_MGMT_COMMAND: create-orgs
+      LDAP_PASSWORD: {{ldap_password}}
+
 - name: create-spaces
   plan:
   - get: config-repo
