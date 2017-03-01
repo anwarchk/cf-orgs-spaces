@@ -4,3 +4,4 @@ user_id: admin
 password: admin
 client_secret: admin-client-secret
 ldap_password: password
+branch : master

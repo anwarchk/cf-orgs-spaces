@@ -3,16 +3,15 @@ resources:
   type: git
   source:
     uri: {{git_repo_uri}}
-    branch: master
+    branch: {{branch}}
 - name: 15m
   type: time
-  source: {interval: 1m}
+  source: {interval: 5m}
 
 jobs:
 - name: create-orgs
   plan:
   - get: config-repo
-    trigger: true
   - task: create-orgs
     file: config-repo/ci/tasks/cf-mgmt.yml
     params:
@@ -26,7 +25,6 @@ jobs:
   plan:
   - get: config-repo
     passed: [create-orgs]
-    trigger: true
   - task: create-spaces
     file: config-repo/ci/tasks/cf-mgmt.yml
     params:
