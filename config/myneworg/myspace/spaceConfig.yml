@@ -3,7 +3,7 @@ space: myspace
 space-developer:
   ldap_users: []
   users: []
-  ldap_group: "space-developers"
+  ldap_group: space_developers
 space-manager:
   ldap_users: []
   users: []
