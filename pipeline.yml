@@ -4,14 +4,15 @@ resources:
   source:
     uri: {{git_repo_uri}}
     branch: {{branch}}
-- name: 15m
+- name: jobtrigger
   type: time
-  source: {interval: 20}
+  source: {interval: 1m}
 
 jobs:
 - name: create-orgs
   plan:
   - get: config-repo
+    trigger: true
   - task: create-orgs
     file: config-repo/ci/tasks/cf-mgmt.yml
     params:
@@ -26,6 +27,7 @@ jobs:
 - name: create-spaces
   plan:
   - get: config-repo
+    trigger: true
     passed: [create-orgs]
   - task: create-spaces
     file: config-repo/ci/tasks/cf-mgmt.yml
@@ -56,7 +58,7 @@ jobs:
   - get: config-repo
     passed: [create-spaces]
     trigger: true
-  - get: 15m
+  - get: jobtrigger
     trigger: true
   - task: update-space-users
     file: config-repo/ci/tasks/cf-mgmt.yml
@@ -101,7 +103,7 @@ jobs:
   - get: config-repo
     passed: [create-orgs]
     trigger: true
-  - get: 15m
+  - get: jobtrigger
     trigger: true
   - task: update-org-users
     file: config-repo/ci/tasks/cf-mgmt.yml
