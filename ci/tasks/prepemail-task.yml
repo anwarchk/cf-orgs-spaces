@@ -14,7 +14,7 @@ run:
   - |
     env
     echo "MIME-version: 1.0" >> ./emailout/headers.txt
-    echo "Content-Type: text/html; charset=UTF-8"  >> ./emailout/headers.txt
+    echo "Content-Type: text/html; charset='UTF-8'"  >> ./emailout/headers.txt
     echo "Build {{.BuildJobName }} of {{.BuildPipelineName}} pipeline failed" >> ./emailout/email-subject-failure.txt
     echo "Build {{.BuildName }} of job {{.BuildJobName }} for pipeline {{.BuildPipelineName}} failed." >> ./emailout/email-body-failure.txt
     echo "Please see the build details here : {{.ExternalURL }}/teams/{{.BuildTeamName}}/pipelines/{{.BuildPipelineName}}/jobs/{{.BuildJobName}}/builds/{{.BuildName}}" >> ./emailout/email-body-failure.txt
