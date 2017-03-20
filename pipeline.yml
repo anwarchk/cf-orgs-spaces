@@ -22,7 +22,7 @@ resources:
       port: "465" # this must be a string
       username: <email>
       password: <password>
-    to: [sadique.anwar@gmail.com]
+    to: [<email>]
     from: build-system@concourse.com
 jobs:
 - name: create-orgs
