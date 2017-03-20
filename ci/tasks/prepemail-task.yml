@@ -1,0 +1,17 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: ubuntu
+    tag: "latest"
+outputs:
+  - name: emailout
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    env
+    echo "Build {{.BuildJobName }} of {{.BuildPipelineName}} pipeline failed" >  ./emailout/email-subject-failure.txt
+    echo "Build {{.BUILD_NAME }} of job {{.BuildJobName }} for pipeline {{.BuildPipelineName}} failed." >  ./emailout/email-body-failure.txt

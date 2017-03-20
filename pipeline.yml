@@ -1,0 +1,155 @@
+---
+resource_types:
+  - name: email
+    type: docker-image
+    source: {repository: pivotalservices/concourse-email-resource, tag: "RC1"}
+
+resources:
+- name: config-repo
+  type: git
+  source:
+    uri: {{git_repo_uri}}
+    branch: {{branch}}
+- name: jobtrigger
+  type: time
+  source: {interval: 1m}
+
+- name: send-email
+  type: email
+  source:
+    smtp:
+      host: smtp.gmail.com
+      port: "465" # this must be a string
+      username: <email>
+      password: <password>
+    to: [sadique.anwar@gmail.com]
+    from: build-system@concourse.com
+jobs:
+- name: create-orgs
+  plan:
+  - get: config-repo
+    trigger: true
+  - task: create-orgs
+    file: config-repo/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: {{system_domain}}
+      USER_ID: {{user_id}}
+      PASSWORD: {{password}}
+      CONFIG_DIR: ./config
+      CLIENT_SECRET: {{client_secret}}
+      CF_MGMT_COMMAND: create-orgs
+      LDAP_PASSWORD: {{ldap_password}}
+
+- name: create-spaces
+  plan:
+  - get: config-repo
+    trigger: true
+    passed: [create-orgs]
+  - task: create-spaces
+    file: config-repo/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: {{system_domain}}
+      USER_ID: {{user_id}}
+      PASSWORD: {{password}}
+      CONFIG_DIR: ./config
+      CLIENT_SECRET: {{client_secret}}
+      LDAP_PASSWORD: {{ldap_password}}
+      CF_MGMT_COMMAND: create-spaces
+- name: update-spaces
+  plan:
+  - get: config-repo
+    passed: [create-spaces]
+    trigger: true
+  - task: update-spaces
+    file: config-repo/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: {{system_domain}}
+      USER_ID: {{user_id}}
+      PASSWORD: {{password}}
+      CONFIG_DIR: ./config
+      CLIENT_SECRET: {{client_secret}}
+      CF_MGMT_COMMAND: update-spaces
+- name: update-space-users
+  plan:
+  - get: config-repo
+    passed: [create-spaces]
+    trigger: true
+  - get: jobtrigger
+    trigger: true
+  - task: prep-emailtext
+    file: config-repo/ci/tasks/prepemail-task.yml
+  - task: update-space-users
+    file: config-repo/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: {{system_domain}}
+      USER_ID: {{user_id}}
+      PASSWORD: {{password}}
+      CONFIG_DIR: ./config
+      CLIENT_SECRET: {{client_secret}}
+      LDAP_PASSWORD: {{ldap_password}}
+      CF_MGMT_COMMAND: update-space-users
+    on_failure:
+      put: send-email
+      params:
+        istemplatesubject: true
+        subject: ./emailout/email-subject-failure.txt
+        body: ./emailout/email-body-failure.txt
+- name: update-space-quotas
+  plan:
+  - get: config-repo
+    passed: [create-spaces]
+    trigger: true
+  - task: update-space-quotas
+    file: config-repo/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: {{system_domain}}
+      USER_ID: {{user_id}}
+      PASSWORD: {{password}}
+      CONFIG_DIR: ./config
+      CLIENT_SECRET: {{client_secret}}
+      CF_MGMT_COMMAND: update-space-quotas
+- name: update-space-security-groups
+  plan:
+  - get: config-repo
+    passed: [create-spaces]
+    trigger: true
+  - task: update-space-security-groups
+    file: config-repo/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: {{system_domain}}
+      USER_ID: {{user_id}}
+      PASSWORD: {{password}}
+      CONFIG_DIR: ./config
+      CLIENT_SECRET: {{client_secret}}
+      CF_MGMT_COMMAND: update-space-security-groups
+- name: update-org-users
+  plan:
+  - get: config-repo
+    passed: [create-orgs]
+    trigger: true
+  - get: jobtrigger
+    trigger: true
+  - task: update-org-users
+    file: config-repo/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: {{system_domain}}
+      USER_ID: {{user_id}}
+      PASSWORD: {{password}}
+      CONFIG_DIR: ./config
+      CLIENT_SECRET: {{client_secret}}
+      LDAP_PASSWORD: {{ldap_password}}
+      CF_MGMT_COMMAND: update-org-users
+- name: update-org-quotas
+  plan:
+  - get: config-repo
+    passed: [create-orgs]
+    trigger: true
+  - task: update-org-quotas
+    file: config-repo/ci/tasks/cf-mgmt.yml
+    params:
+      SYSTEM_DOMAIN: {{system_domain}}
+      USER_ID: {{user_id}}
+      PASSWORD: {{password}}
+      CONFIG_DIR: ./config
+      CLIENT_SECRET: {{client_secret}}
+      CF_MGMT_COMMAND: update-org-quotas
