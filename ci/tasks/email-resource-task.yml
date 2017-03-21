@@ -5,5 +5,7 @@ image_resource:
   source:
     repository: ubuntu
     tag: "latest"
+inputs:
+  - name: config-repo    
 run:
   path: config-repo/ci/tasks/email-resource-task.sh
