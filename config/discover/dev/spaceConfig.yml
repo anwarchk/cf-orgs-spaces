@@ -1,7 +1,7 @@
 org: discover
 space: dev
 space-developer:
-  ldap_users: [anwar]
+  ldap_users: [anwar,cwashburn]
   users: []
   ldap_group: ""
 space-manager:
