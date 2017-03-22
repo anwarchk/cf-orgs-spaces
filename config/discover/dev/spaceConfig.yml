@@ -1,9 +1,9 @@
 org: discover
 space: dev
 space-developer:
-  ldap_users: []
+  ldap_users: [anwar]
   users: []
-  ldap_group: "space_developers"
+  ldap_group: ""
 space-manager:
   ldap_users: []
   users: []
