@@ -3,7 +3,7 @@ space: development
 space-developer:
   ldap_users: []
   users: []
-  ldap_group: "space_developers"
+  ldap_group: ""
 space-manager:
   ldap_users: []
   users: []

@@ -2,9 +2,9 @@ org: discover
 space: dev
 space-developer:
   #ldap users
-  ldap_users: [anwar,cwashburn,priya]
+  ldap_users: []
   #uaa user
-  users: []
+  users: [anwar,cwashburn,priya]
   ldap_group: ""
 space-manager:
   ldap_users: []
