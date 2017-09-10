@@ -1,6 +1,6 @@
 git_repo_uri: https://github.com/anwarchk/cf-orgs-spaces.git
 system_domain: local.pcfdev.io
-user_id: cf-mgmt
-client_secret: cf-mgmt-secret
-ldap_password: password
+user_id:
+client_secret:
+ldap_password:
 branch : master
