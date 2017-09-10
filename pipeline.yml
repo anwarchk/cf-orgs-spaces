@@ -1,3 +1,9 @@
+---
+resource_types:
+  - name: email
+    type: docker-image
+    source: {repository: pivotalservices/concourse-email-resource, tag: "RC1"}
+
 resources:
 - name: config-repo
   type: git
@@ -8,6 +14,16 @@ resources:
   type: time
   source: {interval: 1m}
 
+- name: send-email
+  type: email
+  source:
+    smtp:
+      host: smtp.gmail.com
+      port: "465" # this must be a string
+      username: <email>
+      password: <password>
+    to: [<email>]
+    from: build-system@concourse.com
 jobs:
 - name: create-orgs
   plan:
@@ -60,6 +76,8 @@ jobs:
     trigger: true
   - get: jobtrigger
     trigger: true
+  - task: prep-emailtext
+    file: config-repo/ci/tasks/prepemail-task.yml
   - task: update-space-users
     file: config-repo/ci/tasks/cf-mgmt.yml
     params:
@@ -70,6 +88,12 @@ jobs:
       CLIENT_SECRET: {{client_secret}}
       LDAP_PASSWORD: {{ldap_password}}
       CF_MGMT_COMMAND: update-space-users
+    on_failure:
+      put: send-email
+      params:
+        istemplatesubject: true
+        subject: ./emailout/email-subject-failure.txt
+        body: ./emailout/email-body-failure.txt
 - name: update-space-quotas
   plan:
   - get: config-repo

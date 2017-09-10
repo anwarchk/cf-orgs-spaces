@@ -10,7 +10,7 @@ org-manager:
 org-auditor:
   ldap_users: []
   users: []
-  ldap_group: "space_developers"
+  ldap_group: ""
 enable-org-quota: false
 memory-limit: 10240
 instance-memory-limit: -1

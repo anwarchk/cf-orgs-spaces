@@ -1,0 +1,12 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: ubuntu
+    tag: "latest"
+inputs:
+  - name: config-repo
+  - name: email-resource-repo 
+run:
+  path: config-repo/ci/tasks/email-resource-task.sh
